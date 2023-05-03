@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 import styles from "../../styles/Pokemon.module.css";
 
@@ -16,7 +17,7 @@ export const getStaticPaths = async () => {
         };
     });
 
-    return { paths, fallback: false };
+    return { paths, fallback: true };
 };
 
 export const getStaticProps = async (context: any) => {
@@ -30,6 +31,11 @@ export const getStaticProps = async (context: any) => {
 };
 
 export default function Pokemon({ pokemon }: any) {
+    const router = useRouter();
+
+    if (router.isFallback) {
+        return <div>Carregando...</div>;
+    }
     return (
         <div className={styles.pokemon_container}>
             <h1 className={styles.title}>{pokemon.name}</h1>
@@ -47,7 +53,16 @@ export default function Pokemon({ pokemon }: any) {
                 <h3>Tipo:</h3>
                 <div className={styles.types_container}>
                     {pokemon.types.map((item: any, index: number) => {
-                        return <span key={index} className={`${styles.type} ${styles['type_' + item.type.name]}`}>{item.type.name}</span>;
+                        return (
+                            <span
+                                key={index}
+                                className={`${styles.type} ${
+                                    styles["type_" + item.type.name]
+                                }`}
+                            >
+                                {item.type.name}
+                            </span>
+                        );
                     })}
                 </div>
             </div>

@@ -1,5 +1,8 @@
-import styles from "@/styles/Home.module.css";
 import Image from "next/image";
+
+import styles from "@/styles/Home.module.css";
+
+import Card from "@/components/Card";
 
 export async function getStaticProps() {
     const maxPokemons = 251;
@@ -32,7 +35,7 @@ export default function Home({ pokemons }: any) {
             </div>
             <div className={styles.pokemon_container}>
                 {pokemons.map((pokemon: any) => {
-                    return <p key={pokemon.id}>{pokemon.name}</p>;
+                    return <Card key={pokemon.id} pokemon={pokemon} />;
                 })}
             </div>
         </>
